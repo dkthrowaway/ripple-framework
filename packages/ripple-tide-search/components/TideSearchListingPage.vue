@@ -38,6 +38,7 @@ interface Props {
   globalFilters?: any[]
   userFilters?: any[]
   resultsLayout: TideSearchListingResultLayout
+  noResultsLayout: any
   searchResultsMappingFn?: (item: any) => MappedSearchResult<any>
   contentPage: TideContentPage
   site: TideSiteData
@@ -78,6 +79,9 @@ const props = withDefaults(defineProps<Props>(), {
   }),
   resultsLayout: () => ({
     component: 'TideSearchResultsList'
+  }),
+  noResultsLayout: () => ({
+    component: 'TideSearchNoResults'
   }),
   searchResultsMappingFn: (item): MappedSearchResult<any> => {
     return {
@@ -425,7 +429,10 @@ watch(
       <RplPageComponent>
         <TideSearchResultsLoadingState :isActive="isBusy">
           <TideSearchError v-if="searchError" />
-          <TideSearchNoResults v-else-if="!isBusy && !results?.length" />
+          <component
+            :is="noResultsLayout.component"
+            v-else-if="!isBusy && !results?.length"
+          />
 
           <slot name="results" :results="results">
             <component
