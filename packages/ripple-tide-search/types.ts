@@ -22,8 +22,12 @@ export interface FilterConfigItem {
    */
   component: 'TideSearchFilterDropdown' | string
   filter?: {
-    type: 'raw' | 'term' | 'terms' | 'dependent' | 'function'
+    type: 'raw' | 'term' | 'terms' | 'dependent' | 'function' | 'prefix'
     value: string
+    /**
+     * Can multiple options be selected?
+     */
+    multiple: boolean
   }
   aggregations?: {
     /**
@@ -36,6 +40,7 @@ export interface FilterConfigItem {
      */
     size?: number
   }
+
   /**
    * @description the relevant props that will be passed into the Vue component (see `component` key)
    */
@@ -94,7 +99,8 @@ export type TideSearchListingResultLayout = {
 export type TideSearchListingSortOption = {
   id: string
   label: string
-  clause: any
+  clause?: any
+  function?: string
 }
 
 export type TideSearchLocationQueryConfig = {
